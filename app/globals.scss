@@ -48,6 +48,7 @@ body {
 }
 .title-container {
   margin-top: 20px;
+  max-height: 50px;
   .title-letter {
     margin: 0 2px;
     text-shadow: -1px -1px 0 #3427a7, 1px -1px 0 #3427a7, -1px 1px 0 #3427a7,
@@ -66,6 +67,18 @@ body {
   height: 150px;
   font-family: Hatter Display, sans-serif;
   text-transform: uppercase;
+
+  .flying-image-orange{
+    position: absolute;
+    top: -50;
+    left: -30;
+  }
+
+  .flying-image-green{
+    position: absolute;
+    bottom: -60;
+    right: -30;
+  }
 
   .wood-text {
     position: relative;
@@ -86,7 +99,8 @@ body {
     }
 
     .subtitle {
-      font-size: 40px;
+      margin-top: 10px;
+      font-size: 25px;
       color: greenyellow;
       text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
         1px 1px 0 #ffffff;
@@ -104,6 +118,7 @@ body {
   }
 
   .when-container {
+
     width: 90%;
     font-family: Sunday, sans-serif;
     display: flex;
@@ -113,5 +128,12 @@ body {
     div {
       text-align: center;
     }
+  }
+
+  .footer-section {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction:row;
   }
 }
