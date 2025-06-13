@@ -24,7 +24,7 @@ export default function Home() {
   const greenRef = useRef<HTMLImageElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const [motionEnabled, setMotionEnabled] = useState(false);
-  const [gyroOffset, setGyroOffset] = useState<{ x: number; y: number } | null>(null);
+  const gyroOffset = useRef<{ x: number; y: number } | null>(null);
 
   // Handle device orientation event
   const handleOrientation = (e: DeviceOrientationEvent) => {
@@ -32,13 +32,12 @@ export default function Home() {
     const y = e.beta ?? 0;  // up/down
 
     // Set initial offset on first event
-    if (gyroOffset === null) {
-      setGyroOffset({ x, y });
-      return; // Wait for next event to apply movement
+    if (gyroOffset.current === null) {
+      gyroOffset.current = { x, y };
     }
 
-    const offsetX = (x - gyroOffset.x);
-    const offsetY = (y - gyroOffset.y);
+    const offsetX = (x - (gyroOffset.current?.x ?? 0)) * 2 * 1.4;
+    const offsetY = (y - (gyroOffset.current?.y ?? 0)) * 2 * 1.4;
 
     if (orangeRef.current) {
       orangeRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
@@ -105,7 +104,7 @@ export default function Home() {
 
   // Reset gyroOffset when motion is enabled
   useEffect(() => {
-    setGyroOffset(null);
+    gyroOffset.current = null;
   }, [motionEnabled]);
 
   return (
