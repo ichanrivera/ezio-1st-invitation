@@ -29,8 +29,8 @@ export default function Home() {
   const handleOrientation = (e: DeviceOrientationEvent) => {
     const x = e.gamma ?? 0; // left/right
     const y = e.beta ?? 0;  // up/down
-    const offsetX = x * 2 * 1.4; // increase by 40%
-    const offsetY = y * 2 * 1.4;
+    const offsetX = x * 2 * .6; // increase by 40%
+    const offsetY = y * 2 * .6;
 
     if (orangeRef.current) {
       orangeRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
@@ -46,6 +46,17 @@ export default function Home() {
     if (backgroundRef.current) {
       backgroundRef.current.style.backgroundPosition = `${50 + offsetX / 10}% ${50 + offsetY / 10}%`;
     }
+
+    // Move green and blue dino with parallax
+    const greenDino = document.querySelector('.green-dino-parallax') as HTMLElement | null;
+    if (greenDino) {
+      greenDino.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    }
+    const blueDino = document.querySelector('.blue-dino-parallax') as HTMLElement | null;
+    if (blueDino) {
+      blueDino.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    }
+    // Egg stays in its previous (absolute) position
   };
 
   // Request permission for motion (iOS)
@@ -209,7 +220,7 @@ export default function Home() {
               <Image
                 height={200}
                 width={200}
-                className="green-dino"
+                className="green-dino-parallax"
                 src="/elements/green-dino.png"
                 alt="green dino"
               />
@@ -218,17 +229,18 @@ export default function Home() {
               <Image
                 height={200}
                 width={200}
-                className="blue-dino"
+                className="blue-dino-parallax"
                 src="/elements/blue-dino.png"
                 alt="blue dino"
               />
             </div>
-            <img
-              src="/elements/eggs-modified.png"
-              className="egg absolute bottom-0 left-1/2 -translate-x-1/2 w-32"
-              alt="egg"
-            />
           </div>
+
+          <img
+            src="/elements/eggs-modified.png"
+            className="egg scale-30 absolute top-85 right-30 w-full"
+            alt="egg"
+          />
         </div>
       )}
     </>
