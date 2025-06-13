@@ -27,7 +27,20 @@ export default function Home() {
 
   // Handle device orientation event
   const handleOrientation = (e: DeviceOrientationEvent) => {
-    // Your orientation logic here
+    const x = e.gamma ?? 0;
+    const y = e.beta ?? 0;
+    const offsetX = x / 3;
+    const offsetY = y / 5;
+
+    if (orangeRef.current) {
+      orangeRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    }
+    if (greenRef.current) {
+      greenRef.current.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
+    }
+    if (backgroundRef.current) {
+      backgroundRef.current.style.backgroundPosition = `${50 + offsetX}% ${50 + offsetY}%`;
+    }
   };
 
   // Request permission for motion (iOS)
