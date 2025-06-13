@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@font-face {
+  font-family: "Hatter Display";
+  src: local("Hatter Display Dirt"), local("Hatter-Display-Dirt"),
+    url("/fonts/HatterDisplayPro-Dirt.woff2") format("woff2"),
+    url("/fonts/HatterDisplayPro-Dirt.woff") format("woff"),
+    url("/fonts/HatterDisplayPro-Dirt.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sunday";
+  src: url("/fonts/Sunday-Regular.eot");
+  src: local("Sunday"), local("Sunday-Regular"),
+    url("/fonts/Sunday-Regular.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/Sunday-Regular.woff2") format("woff2"),
+    url("/fonts/Sunday-Regular.woff") format("woff"),
+    url("/fonts/Sunday-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.title-container {
+  margin-top: 20px;
+  .title-letter {
+    margin: 0 2px;
+    text-shadow: -1px -1px 0 #3427a7, 1px -1px 0 #3427a7, -1px 1px 0 #3427a7,
+      1px 1px 0 #3427a7;
+  }
+}
+
+.wood-container {
+  margin: 0 auto;
+  width: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  font-family: Hatter Display, sans-serif;
+  text-transform: uppercase;
+
+  .wood-text {
+    position: relative;
+    z-index: 1;
+    color: var(--foreground);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    transform: rotate(-5deg);
+
+    .name {
+      // margin-top: -20px;
+      font-size: 55px;
+      height: 55px;
+      color: skyblue;
+      text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
+        1px 1px 0 #ffffff;
+    }
+
+    .subtitle {
+      font-size: 40px;
+      color: greenyellow;
+      text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
+        1px 1px 0 #ffffff;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .wood-image {
+    position: absolute;
+    // top: 30px;
+  }
+
+  .when-container {
+    width: 90%;
+    font-family: Sunday, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    div {
+      text-align: center;
+    }
+  }
+}
