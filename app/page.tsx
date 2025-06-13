@@ -29,8 +29,8 @@ export default function Home() {
   const handleOrientation = (e: DeviceOrientationEvent) => {
     const x = e.gamma ?? 0; // left/right
     const y = e.beta ?? 0;  // up/down
-    const offsetX = x * 2 * .6; // increase by 40%
-    const offsetY = y * 2 * .6;
+    const offsetX = x * 1.5; // increase by 40%
+    const offsetY = y * 1.5;
 
     if (orangeRef.current) {
       orangeRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
