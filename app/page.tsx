@@ -24,13 +24,21 @@ export default function Home() {
   const greenRef = useRef<HTMLImageElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const [motionEnabled, setMotionEnabled] = useState(false);
+  const [gyroOffset, setGyroOffset] = useState<{ x: number; y: number } | null>(null);
 
   // Handle device orientation event
   const handleOrientation = (e: DeviceOrientationEvent) => {
     const x = e.gamma ?? 0; // left/right
     const y = e.beta ?? 0;  // up/down
-    const offsetX = x * 1.5;
-    const offsetY = y * 1.5;
+
+    // Set initial offset on first event
+    if (gyroOffset === null) {
+      setGyroOffset({ x, y });
+      return; // Wait for next event to apply movement
+    }
+
+    const offsetX = (x - gyroOffset.x);
+    const offsetY = (y - gyroOffset.y);
 
     if (orangeRef.current) {
       orangeRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
@@ -43,10 +51,6 @@ export default function Home() {
     if (wood) {
       wood.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
     }
-    if (backgroundRef.current) {
-      backgroundRef.current.style.backgroundPosition = `${50 + offsetX / 10}% ${50 + offsetY / 10}%`;
-    }
-
     // Move green and blue dino with parallax
     const greenDino = document.querySelector('.green-dino-parallax') as HTMLElement | null;
     if (greenDino) {
@@ -56,7 +60,9 @@ export default function Home() {
     if (blueDino) {
       blueDino.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
-    // Egg stays in its previous (absolute) position
+    if (backgroundRef.current) {
+      backgroundRef.current.style.backgroundPosition = `${50 + offsetX / 10}% ${50 + offsetY / 10}%`;
+    }
   };
 
   // Request permission for motion (iOS)
@@ -96,6 +102,11 @@ export default function Home() {
       window.removeEventListener("deviceorientation", handleOrientation);
     };
   }, []);
+
+  // Reset gyroOffset when motion is enabled
+  useEffect(() => {
+    setGyroOffset(null);
+  }, [motionEnabled]);
 
   return (
     <>
