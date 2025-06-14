@@ -26,6 +26,7 @@ export default function Home() {
   const [motionEnabled, setMotionEnabled] = useState(false);
   const gyroOffset = useRef<{ x: number; y: number } | null>(null);
   const [page, setPage] = useState(0);
+  const touchStartY = useRef<number | null>(null);
 
   // Handle device orientation event
   const handleOrientation = (e: DeviceOrientationEvent) => {
@@ -133,25 +134,47 @@ export default function Home() {
     gyroOffset.current = null;
   }, [motionEnabled]);
 
-  const nextPage = () => setPage((prev) => (prev + 1) % 3);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+  touchStartY.current = e.touches[0].clientY;
+};
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+  if (touchStartY.current === null) return;
+  const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+
+  const threshold = 50; // pixels
+  if (deltaY < -threshold) {
+    // swipe up = next page
+    setPage((prev) => (prev + 1) % 3);
+  } else if (deltaY > threshold) {
+    // swipe down = previous page
+    setPage((prev) => (prev - 1 + 3) % 3);
+  }
+
+  touchStartY.current = null;
+};
 
   return (
     <>
       {!motionEnabled ? (
-        <div className="flex items-center justify-center min-h-screen w-70  mx-auto">
+        <div className="flex flex-col items-center justify-center min-h-screen w-70  mx-auto">
+          
           <button
             onClick={requestMotionPermission}
             className="z-50 bg-orange-600 text-white px-6 py-3 rounded shadow text-lg font-bold uppercase"
           >
-            Tap this button to make dinosaurs move!
+            Tap this button to make dinosaurs move and then swipe up to see the next page!
           </button>
         </div>
       ) : (
         <div
           ref={backgroundRef}
+            onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           className="app-container h-[100dvh] max-w-md mx-auto px-0 py-0 shadow-md justify-between rounded-sm flex flex-col relative overflow-hidden"
           style={{
-            backgroundImage: "url('/elements/MainBackground.png')",
+            backgroundImage: page !==2 ? "url('/elements/MainBackground.png')": "url('/elements/Background.png')",
             backgroundSize: "100% 100%",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -293,7 +316,7 @@ export default function Home() {
               )}
               {page === 2 && (
                 <>
-                  <div className="text-orange-400 text-3xl font-bold">
+                  <div className="text-orange-400 text-xl font-bold">
                     RAWR-SOME NEWS!
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
@@ -309,10 +332,21 @@ export default function Home() {
                     a little something,
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
-                    Scan the QR to see Ezio's gift guide.
+                    Scan the Gifts to see Ezio's gift guide.
+                  </div>
+                  <div>
+                    <Image
+                      width="100"
+                      height="100"
+                      src="/elements/gifts.png"
+                      className="gift-guide-image"
+                      alt="Gift Guide"
+                    />
                   </div>
 
-                  <div className="text-orange-400 text-3xl font-bold mt-10">
+                 
+
+                  <div className="text-orange-400 text-xl font-bold">
                     Dress Code
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
@@ -330,6 +364,7 @@ export default function Home() {
                       alt="Dress Code"
                     />
                   </div>
+                   
                   
                 </>
               )}
@@ -375,12 +410,6 @@ export default function Home() {
             />
           )}
 
-          <button
-            onClick={nextPage}
-            className="sticky bottom-4 mx-auto bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50"
-          >
-            Next
-          </button>
         </div>
       )}
     </>
