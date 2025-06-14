@@ -298,7 +298,10 @@ export default function Home() {
                     in time to prep your special surprise!
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
-                    Scan the QR on the Dino egg to RSVP
+                    Scan the QR on the Dino egg
+                  </div>
+                  <div className="text-yellow-800 text-sm font-bold">
+                    or visit this <u><a className="text-blue-500" href="https://forms.gle/gpuMWNnPxkrrfVAR9">link</a></u> to RSVP
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
                     dont let the dinos down!
@@ -332,7 +335,11 @@ export default function Home() {
                     a little something,
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
-                    Scan the Gifts to see Ezio's gift guide.
+                    Scan the Gifts or visit this <a className="text-blue-400" href="https://ezio-gift-registry-seven.vercel.app/">link</a>
+                  </div>
+                  <div className="text-yellow-800 text-sm font-bold">
+                    to see Ezio's gift guide!
+                  
                   </div>
                   <div>
                     <Image
