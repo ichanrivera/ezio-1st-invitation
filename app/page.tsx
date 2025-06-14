@@ -39,25 +39,37 @@ export default function Home() {
     const offsetX = (x - (gyroOffset.current?.x ?? 0)) * 2 * 1.4;
     const offsetY = (y - (gyroOffset.current?.y ?? 0)) * 2 * 1.4;
 
+    // Different sensitivities for each dino
+    const orangeOffsetX = offsetX * 0.4;
+    const orangeOffsetY = offsetY * 0.4;
+    const greenOffsetX = offsetX * 0.8;
+    const greenOffsetY = offsetY * 0.8;
+    const greenDinoOffsetX = offsetX * 0.2;
+    const greenDinoOffsetY = offsetY * 0.2;
+    const blueDinoOffsetX = offsetX * 0.6;
+    const blueDinoOffsetY = offsetY * 0.6;
+    const eggOffsetX = offsetX * 0.1;
+    const eggOffsetY = offsetY * 0.1;
+
     if (orangeRef.current) {
-      orangeRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      orangeRef.current.style.transform = `translate(${orangeOffsetX}px, ${orangeOffsetY}px)`;
     }
     if (greenRef.current) {
-      greenRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      greenRef.current.style.transform = `translate(${greenOffsetX}px, ${greenOffsetY}px)`;
     }
-    // Move the wood in the opposite direction
-    const wood = document.querySelector('.wood-image') as HTMLElement | null;
-    if (wood) {
-      wood.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
+    // Move egg with parallax
+    const egg = document.querySelector('.egg') as HTMLElement | null;
+    if (egg) {
+      egg.style.transform = `translate(${eggOffsetX}px, ${eggOffsetY}px)`;
     }
     // Move green and blue dino with parallax
     const greenDino = document.querySelector('.green-dino-parallax') as HTMLElement | null;
     if (greenDino) {
-      greenDino.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      greenDino.style.transform = `translate(${greenDinoOffsetX}px, ${greenDinoOffsetY}px)`;
     }
     const blueDino = document.querySelector('.blue-dino-parallax') as HTMLElement | null;
     if (blueDino) {
-      blueDino.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      blueDino.style.transform = `translate(${blueDinoOffsetX}px, ${blueDinoOffsetY}px)`;
     }
     if (backgroundRef.current) {
       backgroundRef.current.style.backgroundPosition = `${50 + offsetX / 10}% ${50 + offsetY / 10}%`;
