@@ -122,12 +122,12 @@ export default function Home() {
   return (
     <>
       {!motionEnabled ? (
-        <div className="flex items-center justify-center min-h-screen w-full bg-white">
+        <div className="flex items-center justify-center min-h-screen w-70  mx-auto">
           <button
             onClick={requestMotionPermission}
-            className="z-50 bg-blue-600 text-white px-6 py-3 rounded shadow text-lg font-bold"
+            className="z-50 bg-orange-600 text-white px-6 py-3 rounded shadow text-lg font-bold uppercase"
           >
-            Enable Motion to see moving dinosaurs!
+            Tap this button to make dinosaurs move!
           </button>
         </div>
       ) : (
