@@ -27,6 +27,18 @@ export default function Home() {
   const gyroOffset = useRef<{ x: number; y: number } | null>(null);
   const [page, setPage] = useState(0);
   const touchStartY = useRef<number | null>(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShow(true);
+      const hideTimeout = setTimeout(() => setShow(false), 3000); // Hide after 2s
+
+      return () => clearTimeout(hideTimeout);
+    }, 5000); // Every 5s
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle device orientation event
   const handleOrientation = (e: DeviceOrientationEvent) => {
@@ -134,47 +146,49 @@ export default function Home() {
     gyroOffset.current = null;
   }, [motionEnabled]);
 
-
   const handleTouchStart = (e: React.TouchEvent) => {
-  touchStartY.current = e.touches[0].clientY;
-};
+    touchStartY.current = e.touches[0].clientY;
+  };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-  if (touchStartY.current === null) return;
-  const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    if (touchStartY.current === null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
 
-  const threshold = 50; // pixels
-  if (deltaY < -threshold) {
-    // swipe up = next page
-    setPage((prev) => (prev + 1) % 3);
-  } else if (deltaY > threshold) {
-    // swipe down = previous page
-    setPage((prev) => (prev - 1 + 3) % 3);
-  }
+    const threshold = 50; // pixels
+    if (deltaY < -threshold) {
+      // swipe up = next page
+      setPage((prev) => (prev + 1) % 3);
+    } else if (deltaY > threshold) {
+      // swipe down = previous page
+      setPage((prev) => (prev - 1 + 3) % 3);
+    }
 
-  touchStartY.current = null;
-};
+    touchStartY.current = null;
+  };
 
   return (
     <>
       {!motionEnabled ? (
         <div className="flex flex-col items-center justify-center min-h-screen w-70  mx-auto">
-          
           <button
             onClick={requestMotionPermission}
             className="z-50 bg-orange-600 text-white px-6 py-3 rounded shadow text-lg font-bold uppercase"
           >
-            Tap this button to make dinosaurs move and then swipe up to see the next page!
+            Tap this button to make dinosaurs move and then swipe up to see the
+            next page!
           </button>
         </div>
       ) : (
         <div
           ref={backgroundRef}
-            onTouchStart={handleTouchStart}
+          onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           className="app-container h-[100dvh] max-w-md mx-auto px-0 py-0 shadow-md justify-between rounded-sm flex flex-col relative overflow-hidden"
           style={{
-            backgroundImage: page !==2 ? "url('/elements/MainBackground.png')": "url('/elements/Background.png')",
+            backgroundImage:
+              page !== 2
+                ? "url('/elements/MainBackground.png')"
+                : "url('/elements/Background.png')",
             backgroundSize: "100% 100%",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -301,7 +315,16 @@ export default function Home() {
                     Scan the QR on the Dino egg
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
-                    or visit this <u><a className="text-blue-500" href="https://forms.gle/gpuMWNnPxkrrfVAR9">link</a></u> to RSVP
+                    or visit this{" "}
+                    <u>
+                      <a
+                        className="text-blue-500"
+                        href="https://forms.gle/gpuMWNnPxkrrfVAR9"
+                      >
+                        link
+                      </a>
+                    </u>{" "}
+                    to RSVP
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
                     dont let the dinos down!
@@ -323,10 +346,10 @@ export default function Home() {
                     RAWR-SOME NEWS!
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
-                    No gifts needed,  
+                    No gifts needed,
                   </div>
                   <div className="text-yellow-800 text-md font-bold">
-                    just your presence is the best treat! 
+                    just your presence is the best treat!
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
                     But if you'd like to bring
@@ -335,11 +358,16 @@ export default function Home() {
                     a little something,
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
-                    Scan the Gifts or visit this <a className="text-blue-400" href="https://ezio-gift-registry-seven.vercel.app/">link</a>
+                    Scan the Gifts or visit this{" "}
+                    <a
+                      className="text-blue-400"
+                      href="https://ezio-gift-registry-seven.vercel.app/"
+                    >
+                      link
+                    </a>
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
                     to see Ezio's gift guide!
-                  
                   </div>
                   <div>
                     <Image
@@ -350,8 +378,6 @@ export default function Home() {
                       alt="Gift Guide"
                     />
                   </div>
-
-                 
 
                   <div className="text-orange-400 text-xl font-bold">
                     Dress Code
@@ -371,8 +397,6 @@ export default function Home() {
                       alt="Dress Code"
                     />
                   </div>
-                   
-                  
                 </>
               )}
             </div>
@@ -416,7 +440,15 @@ export default function Home() {
               alt="orange dino"
             />
           )}
-
+          {show && (
+            <Image
+              height={200}
+              width={200}
+              className="absolute bottom-0 right-22 z-10"
+              src="/elements/swipeup.gif"
+              alt="Ezio's Logo"
+            />
+          )}
         </div>
       )}
     </>
