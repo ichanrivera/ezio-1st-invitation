@@ -300,7 +300,7 @@ export default function Home() {
                 <>
                   <div className="text-orange-500 text-2xl font-bold">RSVP</div>
                   <div className="text-yellow-800 text-lg font-bold">
-                    Please RSVP by June 20, 2025
+                    Please RSVP by June 25, 2025
                   </div>
                   <div className="text-yellow-800 text-sm font-bold">
                     Our giveaways are personalized,
